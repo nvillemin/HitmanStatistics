@@ -17,3 +17,5 @@ Features:<br>
 
 How to use:<br>
   Run the program while playing the game, during a mission all values will be updated automatically.
+
+Screenshot: http://i.imgur.com/gveKJ7n.png
