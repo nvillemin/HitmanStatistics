@@ -11,6 +11,14 @@ namespace Hitman2Statistics
         // Base address value for pointers.
         const int baseAddress = 0x00400000;
 
+        SACombination[] validSACombination = {
+            new SACombination(0, 1, 0, 0, 1, 2, 0, 0), new SACombination(0, 1, 0, 0, 0, 5, 0, 0), new SACombination(0, 1, 0, 0, 0, 2, 0, 1), new SACombination(0, 0, 0, 1, 2, 0, 0, 0), new SACombination(0, 0, 0, 1, 1, 3, 0, 0), 
+            new SACombination(0, 0, 0, 1, 1, 0, 0, 1), new SACombination(0, 0, 0, 1, 0, 6, 0, 0), new SACombination(0, 0, 0, 1, 0, 3, 0, 1), new SACombination(0, 0, 0, 1, 0, 0, 1, 0), new SACombination(0, 0, 0, 1, 0, 0, 0, 2), 
+            new SACombination(0, 0, 0, 0, 1, 0, 0, 1), new SACombination(1, 1, 0, 0, 1, 0, 0, 0), new SACombination(1, 1, 0, 0, 0, 3, 0, 0), new SACombination(1, 1, 0, 0, 0, 0, 0, 1), new SACombination(1, 0, 1, 1, 1, 0, 0, 0), 
+            new SACombination(1, 0, 0, 1, 1, 1, 0, 0), new SACombination(1, 0, 0, 1, 0, 4, 0, 0), new SACombination(1, 0, 0, 1, 0, 1, 0, 1), new SACombination(1, 0, 0, 0, 1, 1, 0, 0), new SACombination(2, 1, 0, 0, 0, 1, 0, 0),
+            new SACombination(2, 0, 0, 1, 0, 1, 0, 0), new SACombination(3, 0, 0, 1, 0, 0, 0, 0)};
+
+
         // Most values are accessed with 3-levels pointers and the second offset is different depending on the current mission.
         // All second offsets are stored here to be accessed according to the correct mission.
         int[] secondOffset = { 0x838, 0xB24, 0x8A0, 0x138, 0xB88, 0xBB8, 0xB48, 0xCE8, 0x136C, 0xAD0, 0xF50, 0x8D4, 0x9EC, 0x400, 0x9EC, 0x644, 0xB08, 0x96C, 0xB00, 0x8 };
@@ -24,11 +32,12 @@ namespace Hitman2Statistics
 
         // Other variables.
         System.Text.Encoding enc = System.Text.Encoding.UTF8;
+        Image imgSA, imgNotSA;
         Process[] myProcess;
         String mapName;
-        int mapNumber;
         float missionTime;
         bool isMissionActive;
+        int mapNumber, nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH;
         
 
         /*------------------
@@ -37,6 +46,8 @@ namespace Hitman2Statistics
         public Form1()
         {
             InitializeComponent();
+            imgSA = Properties.Resources.Yes;
+            imgNotSA = Properties.Resources.No;
         }
 
 
@@ -82,14 +93,34 @@ namespace Hitman2Statistics
                     LB_Time.Text = ((int)missionTime / 60).ToString("D2") + ":" + (missionTime % 60).ToString("00.000");
 
                     // Reading every other value, for some reason the number of shots fired isn't stored at the same place as all the other ones and is currently a bit glitchy.
-                    NB_ShotsFired.Text = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x000421BC, new int[4] { 0x190, 0x714, 0x104, 0x667 }).ToString();
-                    NB_CloseEncounters.Text = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x220 }).ToString();
-                    NB_Headshots.Text = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x208 }).ToString();
-                    NB_Alerts.Text = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x21C }).ToString();
-                    NB_EnemiesKilled.Text = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x210 }).ToString();
-                    NB_EnemiesHarmed.Text = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x20C }).ToString();
-                    NB_InnocentsKilled.Text = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x218 }).ToString();
-                    NB_InnocentsHarmed.Text = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x214 }).ToString();
+                    nbShotsFired = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x000421BC, new int[4] { 0x190, 0x714, 0x104, 0x667 });
+                    nbCloseEncounters = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x220 });
+                    nbHeadshots = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x208 });
+                    nbAlerts = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x21C });
+                    nbEnemiesK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x210 });
+                    nbEnemiesH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x20C });
+                    nbInnocentsK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x218 });
+                    nbInnocentsH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x214 });
+
+                    NB_ShotsFired.Text = nbShotsFired.ToString();
+                    NB_CloseEncounters.Text = nbCloseEncounters.ToString();
+                    NB_Headshots.Text = nbHeadshots.ToString();
+                    NB_Alerts.Text = nbAlerts.ToString();
+                    NB_EnemiesKilled.Text = nbEnemiesK.ToString();
+                    NB_EnemiesHarmed.Text = nbEnemiesH.ToString();
+                    NB_InnocentsKilled.Text = nbInnocentsK.ToString();
+                    NB_InnocentsHarmed.Text = nbInnocentsH.ToString();
+
+                    if (SilentAssassin())
+                    {
+                        IMG_SA.BackgroundImage = imgSA;
+                        LB_SilentAssassin.ForeColor = Color.Green;
+                    }
+                    else
+                    {
+                        IMG_SA.BackgroundImage = imgNotSA;
+                        LB_SilentAssassin.ForeColor = Color.Red;
+                    }
                 }
                 else // No mission is active, reseting values.
                 {
@@ -120,6 +151,25 @@ namespace Hitman2Statistics
             NB_EnemiesHarmed.Text = "0";
             NB_InnocentsKilled.Text = "0";
             NB_InnocentsHarmed.Text = "0";
+
+            if (IMG_SA.BackgroundImage != imgSA)
+            {
+                IMG_SA.BackgroundImage = imgSA;
+            }
+        }
+
+        // Used to check if the actual rating is Silent Assassin
+        private bool SilentAssassin()
+        {
+            foreach (SACombination combination in validSACombination)
+            {
+                if(combination.isSACombination(nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

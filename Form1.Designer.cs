@@ -52,6 +52,8 @@
             this.LB_InnocentsHarmed = new System.Windows.Forms.Label();
             this.LB_Timer = new System.Windows.Forms.Label();
             this.LB_Mission = new System.Windows.Forms.Label();
+            this.LB_SilentAssassin = new System.Windows.Forms.Label();
+            this.IMG_SA = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // LB_ShotsFired
@@ -287,11 +289,32 @@
             this.LB_Mission.TabIndex = 31;
             this.LB_Mission.Text = "Mission:";
             // 
+            // LB_SilentAssassin
+            // 
+            this.LB_SilentAssassin.AutoSize = true;
+            this.LB_SilentAssassin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LB_SilentAssassin.ForeColor = System.Drawing.Color.Green;
+            this.LB_SilentAssassin.Location = new System.Drawing.Point(45, 274);
+            this.LB_SilentAssassin.Name = "LB_SilentAssassin";
+            this.LB_SilentAssassin.Size = new System.Drawing.Size(132, 20);
+            this.LB_SilentAssassin.TabIndex = 32;
+            this.LB_SilentAssassin.Text = "Silent Assassin";
+            // 
+            // IMG_SA
+            // 
+            this.IMG_SA.BackgroundImage = global::Hitman2Statistics.Properties.Resources.Yes;
+            this.IMG_SA.Location = new System.Drawing.Point(13, 276);
+            this.IMG_SA.Name = "IMG_SA";
+            this.IMG_SA.Size = new System.Drawing.Size(16, 16);
+            this.IMG_SA.TabIndex = 33;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 272);
+            this.ClientSize = new System.Drawing.Size(302, 305);
+            this.Controls.Add(this.IMG_SA);
+            this.Controls.Add(this.LB_SilentAssassin);
             this.Controls.Add(this.LB_Mission);
             this.Controls.Add(this.LB_Timer);
             this.Controls.Add(this.NB_InnocentsHarmed);
@@ -347,6 +370,8 @@
         private System.Windows.Forms.Label LB_InnocentsHarmed;
         private System.Windows.Forms.Label LB_Timer;
         private System.Windows.Forms.Label LB_Mission;
+        private System.Windows.Forms.Label LB_SilentAssassin;
+        private System.Windows.Forms.Panel IMG_SA;
     }
 }
 
