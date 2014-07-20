@@ -4,6 +4,7 @@ Hitman 2 Statistics
 Hitman 2 real-time statistics tracker.
 
 Features:<br>
+ • Silent Assassin rating<br>
  • Current mission name & number<br>
  • Timer with 3 decimals<br>
  • Shots fired<br>
@@ -18,4 +19,4 @@ Features:<br>
 How to use:<br>
   Run the program while playing the game, during a mission all values will be updated automatically.
 
-Screenshot: http://i.imgur.com/gveKJ7n.png
+Screenshots: http://i.imgur.com/pJ2xemZ.png - http://i.imgur.com/oI7870x.png
