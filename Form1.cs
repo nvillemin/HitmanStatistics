@@ -11,13 +11,13 @@ namespace Hitman2Statistics
         // Base address value for pointers.
         const int baseAddress = 0x00400000;
 
+        // All the possible Silent Assassin combinations
         SACombination[] validSACombination = {
             new SACombination(0, 1, 0, 0, 1, 2, 0, 0), new SACombination(0, 1, 0, 0, 0, 5, 0, 0), new SACombination(0, 1, 0, 0, 0, 2, 0, 1), new SACombination(0, 0, 0, 1, 2, 0, 0, 0), new SACombination(0, 0, 0, 1, 1, 3, 0, 0), 
             new SACombination(0, 0, 0, 1, 1, 0, 0, 1), new SACombination(0, 0, 0, 1, 0, 6, 0, 0), new SACombination(0, 0, 0, 1, 0, 3, 0, 1), new SACombination(0, 0, 0, 1, 0, 0, 1, 0), new SACombination(0, 0, 0, 1, 0, 0, 0, 2), 
             new SACombination(0, 0, 0, 0, 1, 0, 0, 1), new SACombination(1, 1, 0, 0, 1, 0, 0, 0), new SACombination(1, 1, 0, 0, 0, 3, 0, 0), new SACombination(1, 1, 0, 0, 0, 0, 0, 1), new SACombination(1, 0, 1, 1, 1, 0, 0, 0), 
             new SACombination(1, 0, 0, 1, 1, 1, 0, 0), new SACombination(1, 0, 0, 1, 0, 4, 0, 0), new SACombination(1, 0, 0, 1, 0, 1, 0, 1), new SACombination(1, 0, 0, 0, 1, 1, 0, 0), new SACombination(2, 1, 0, 0, 0, 1, 0, 0),
             new SACombination(2, 0, 0, 1, 0, 1, 0, 0), new SACombination(3, 0, 0, 1, 0, 0, 0, 0)};
-
 
         // Most values are accessed with 3-levels pointers and the second offset is different depending on the current mission.
         // All second offsets are stored here to be accessed according to the correct mission.
@@ -37,7 +37,7 @@ namespace Hitman2Statistics
         String mapName;
         float missionTime;
         bool isMissionActive;
-        int mapNumber, nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH;
+        int mapNumber, nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH, currentShotsFired;
         
 
         /*------------------
@@ -48,6 +48,7 @@ namespace Hitman2Statistics
             InitializeComponent();
             imgSA = Properties.Resources.Yes;
             imgNotSA = Properties.Resources.No;
+            currentShotsFired = 0;
         }
 
 
@@ -81,6 +82,7 @@ namespace Hitman2Statistics
                     // The mission name isn't included in the dictionary, meaning that a mission is not active at this moment.
                     // The current screen is something like the main menu, the briefing or a cutscene.
                     isMissionActive = false;
+                    currentShotsFired = 0;
                 }
 
                 if (isMissionActive) // A mission is currently active, ready to read memory.
@@ -91,9 +93,17 @@ namespace Hitman2Statistics
                     // Reading the timer and displaying it with 3 decimals.
                     missionTime = Trainer.ReadPointerFloat("hitman2", baseAddress + 0x2A6C5C, new int[1] { 0x24 });
                     LB_Time.Text = ((int)missionTime / 60).ToString("D2") + ":" + (missionTime % 60).ToString("00.000");
+                    // Reseting the number of shots fired while loading a game (the timer goes to 0 while loading)
+                    if (missionTime == 0)
+                        currentShotsFired = 0;
 
-                    // Reading every other value, for some reason the number of shots fired isn't stored at the same place as all the other ones and is currently a bit glitchy.
-                    nbShotsFired = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x000421BC, new int[4] { 0x190, 0x714, 0x104, 0x667 });
+                    // Reading the number of shots fired.
+                    // There's a glitch with this, it sometimes goes back to 0 for a few milliseconds, so I use another variable to stock what was the value before so I can prevent it to change.
+                    nbShotsFired = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x00051A88, new int[3] { 0x34, 0x54, 0x11C7 });
+                    if (nbShotsFired > currentShotsFired)
+                        currentShotsFired = nbShotsFired;
+
+                    // Reading every other value
                     nbCloseEncounters = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x220 });
                     nbHeadshots = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x208 });
                     nbAlerts = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x21C });
@@ -102,7 +112,8 @@ namespace Hitman2Statistics
                     nbInnocentsK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x218 });
                     nbInnocentsH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x214 });
 
-                    NB_ShotsFired.Text = nbShotsFired.ToString();
+                    // Displaying the values
+                    NB_ShotsFired.Text = currentShotsFired.ToString();
                     NB_CloseEncounters.Text = nbCloseEncounters.ToString();
                     NB_Headshots.Text = nbHeadshots.ToString();
                     NB_Alerts.Text = nbAlerts.ToString();
@@ -111,6 +122,7 @@ namespace Hitman2Statistics
                     NB_InnocentsKilled.Text = nbInnocentsK.ToString();
                     NB_InnocentsHarmed.Text = nbInnocentsH.ToString();
 
+                    // Checking if the actual rating is SA according to the current stats
                     if (SilentAssassin())
                     {
                         IMG_SA.BackgroundImage = imgSA;
@@ -155,20 +167,22 @@ namespace Hitman2Statistics
             if (IMG_SA.BackgroundImage != imgSA)
             {
                 IMG_SA.BackgroundImage = imgSA;
+                LB_SilentAssassin.ForeColor = Color.Green;
             }
         }
 
         // Used to check if the actual rating is Silent Assassin
         private bool SilentAssassin()
         {
+            // Checking every possible SA combination
             foreach (SACombination combination in validSACombination)
             {
+                // If all the current values are equal or inferior to a valid combination, the rating is SA
                 if(combination.isSACombination(nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH))
                 {
                     return true;
                 }
             }
-
             return false;
         }
     }
