@@ -11,7 +11,7 @@ namespace Hitman2Statistics
         // Base address value for pointers.
         const int baseAddress = 0x00400000;
 
-        // All the possible Silent Assassin combinations
+        // All the possible Silent Assassin combinations for Hitman 2
         SACombination[] validSACombination = {
             new SACombination(0, 1, 0, 0, 1, 2, 0, 0), new SACombination(0, 1, 0, 0, 0, 5, 0, 0), new SACombination(0, 1, 0, 0, 0, 2, 0, 1), new SACombination(0, 0, 0, 1, 2, 0, 0, 0), new SACombination(0, 0, 0, 1, 1, 3, 0, 0), 
             new SACombination(0, 0, 0, 1, 1, 0, 0, 1), new SACombination(0, 0, 0, 1, 0, 6, 0, 0), new SACombination(0, 0, 0, 1, 0, 3, 0, 1), new SACombination(0, 0, 0, 1, 0, 0, 1, 0), new SACombination(0, 0, 0, 1, 0, 0, 0, 2), 
@@ -25,10 +25,15 @@ namespace Hitman2Statistics
 
         // Dictionary used to convert the raw map names into easily readable names and a map number to access the second offsets declared previously.
         Dictionary<string, Tuple<string, int>> mapValues = new Dictionary<string, Tuple<string, int>>() {
-            { "C1-1__MA", new Tuple<string, int>("Anathema", 1) },              { "C2-1__MA", new Tuple<string, int>("St. Petersburg Stakeout", 2) },   { "C2-2__MA", new Tuple<string, int>("Kirov Park Meeting", 3) },    { "C2-3__MA", new Tuple<string, int>("Tubeway Torpedo", 4) },               { "C2-4__MA", new Tuple<string, int>("Invitation to a Party", 5) },
-            { "C3-1__MA", new Tuple<string, int>("Tracking Hayamoto", 6) },     { "\\C3-2a__", new Tuple<string, int>("Hidden Valley", 7) },            { "\\C3-2b__", new Tuple<string, int>("At the Gates", 8) },         { "C3-3__MA", new Tuple<string, int>("Shogun Showdown", 9) },               { "C4-1__MA", new Tuple<string, int>("Basement Killing", 10) },
-            { "C4-2__MA", new Tuple<string, int>("The Graveyard Shift", 11) },  { "C4-3__MA", new Tuple<string, int>("The Jacuzzi Job", 12) },          { "C5-1__MA", new Tuple<string, int>("Murder At The Bazaar", 13) }, { "C5-2__MA", new Tuple<string, int>("The Motorcade Interception", 14) },   { "C5-3__MA", new Tuple<string, int>("Tunnel Rat", 15) },
-            { "C6-1__MA", new Tuple<string, int>("Temple City Ambush", 16) },   { "C6-2__MA", new Tuple<string, int>("The Death of Hannelore", 17) },   { "C6-3__MA", new Tuple<string, int>("Terminal Hospitality", 18) }, { "C7-1__MA", new Tuple<string, int>("St. Petersburg Revisited", 19) },     { "C8-1__MA", new Tuple<string, int>("Redemption at Gontranno", 20) }};
+            // Hitman 2
+            { "C1-1__MA", new Tuple<string, int>("Anathema", 1) },                  { "C2-1__MA", new Tuple<string, int>("St. Petersburg Stakeout", 2) },   { "C2-2__MA", new Tuple<string, int>("Kirov Park Meeting", 3) },    { "C2-3__MA", new Tuple<string, int>("Tubeway Torpedo", 4) },               { "C2-4__MA", new Tuple<string, int>("Invitation to a Party", 5) },
+            { "C3-1__MA", new Tuple<string, int>("Tracking Hayamoto", 6) },         { "\\C3-2a__", new Tuple<string, int>("Hidden Valley", 7) },            { "\\C3-2b__", new Tuple<string, int>("At the Gates", 8) },         { "C3-3__MA", new Tuple<string, int>("Shogun Showdown", 9) },               { "C4-1__MA", new Tuple<string, int>("Basement Killing", 10) },
+            { "C4-2__MA", new Tuple<string, int>("The Graveyard Shift", 11) },      { "C4-3__MA", new Tuple<string, int>("The Jacuzzi Job", 12) },          { "C5-1__MA", new Tuple<string, int>("Murder At The Bazaar", 13) }, { "C5-2__MA", new Tuple<string, int>("The Motorcade Interception", 14) },   { "C5-3__MA", new Tuple<string, int>("Tunnel Rat", 15) },
+            { "C6-1__MA", new Tuple<string, int>("Temple City Ambush", 16) },       { "C6-2__MA", new Tuple<string, int>("The Death of Hannelore", 17) },   { "C6-3__MA", new Tuple<string, int>("Terminal Hospitality", 18) }, { "C7-1__MA", new Tuple<string, int>("St. Petersburg Revisited", 19) },     { "C8-1__MA", new Tuple<string, int>("Redemption at Gontranno", 20) },
+            // Hitman Contracts
+            { "C01-1_MA", new Tuple<string, int>("Asylum Aftermath", 1) },          { "C01-2_MA", new Tuple<string, int>("The Meat King's Party", 2) },     { "C02-1_MA", new Tuple<string, int>("The Bjarkhov Bomb", 3) },     { "C03-1_MA", new Tuple<string, int>("Beldingford Manor", 4) },             { "C06-1_MA", new Tuple<string, int>("Rendezvous in Rotterdam", 5) },
+            { "C06-2_MA", new Tuple<string, int>("Deadly Cargo", 6) },              { "C07-1_MA", new Tuple<string, int>("Traditions of the Trade", 7) },   { "C08-1_MA", new Tuple<string, int>("Slaying a Dragon", 8) },      { "C08-2_MA", new Tuple<string, int>("The Wang Fou Incident", 9) },         { "C08-3_MA", new Tuple<string, int>("The Seafood Massacre", 10) },
+            { "C08-4_MA", new Tuple<string, int>("Lee Hong Assassination", 11) },   { "C09-1_MA", new Tuple<string, int>("Hunter and Hunted", 12) }};
 
         // Other variables.
         System.Text.Encoding enc = System.Text.Encoding.UTF8;
@@ -37,7 +42,8 @@ namespace Hitman2Statistics
         String mapName;
         float missionTime;
         bool isMissionActive;
-        int mapNumber, nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH, currentShotsFired;
+        string gameName;
+        int gameNumber, mapNumber, nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH, currentShotsFired;
         
 
         /*------------------
@@ -49,6 +55,8 @@ namespace Hitman2Statistics
             imgSA = Properties.Resources.Yes;
             imgNotSA = Properties.Resources.No;
             currentShotsFired = 0;
+            gameNumber = 2;
+            gameName = "HITMAN 2";
         }
 
 
@@ -58,16 +66,33 @@ namespace Hitman2Statistics
         private void Timer_Tick(object sender, EventArgs e)
         {
             // Attempt to find if the game is currently running.
-            myProcess = Process.GetProcessesByName("hitman2");
+            switch (gameNumber)
+            {
+                case 2:
+                    myProcess = Process.GetProcessesByName("hitman2");
+                    break;
+                case 3:
+                    myProcess = Process.GetProcessesByName("HitmanContracts");
+                    break;
+            }
 
             if (myProcess.Length != 0)
             {
                 // The game is running, ready for memory reading.
-                LB_Running.Text = "HITMAN 2 IS RUNNING";
+                LB_Running.Text = gameName + " IS RUNNING";
                 LB_Running.ForeColor = Color.Green;
 
                 // Reading the raw name of the current mission as an array of bytes and converting it to a string.
-                byte[] mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("hitman2", baseAddress + 0x002A6C5C, new int[2] { 0x98, 0xBC7 }));
+                byte[] mapBytes = null;
+                switch (gameNumber)
+                {
+                    case 2:
+                        mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("hitman2", baseAddress + 0x002A6C5C, new int[2] { 0x98, 0xBC7 }));
+                        break;
+                    case 3:
+                        mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("HitmanContracts", baseAddress + 0x00393D58, new int[2] { 0x234, 0xBDE }));
+                        break;
+                }
                 string mapBytesStr = enc.GetString(mapBytes);
                 isMissionActive = true;
 
@@ -91,29 +116,67 @@ namespace Hitman2Statistics
                     LB_MapName.Text = "#" + mapNumber + " " + mapName;
 
                     // Reading the timer and displaying it with 3 decimals.
-                    missionTime = Trainer.ReadPointerFloat("hitman2", baseAddress + 0x2A6C5C, new int[1] { 0x24 });
-                    LB_Time.Text = ((int)missionTime / 60).ToString("D2") + ":" + (missionTime % 60).ToString("00.000");
-                    // Reseting the number of shots fired while loading a game (the timer goes to 0 while loading)
-                    if (missionTime == 0)
-                        currentShotsFired = 0;
+                    switch (gameNumber)
+                    {
+                        case 2:
+                            missionTime = Trainer.ReadPointerFloat("hitman2", baseAddress + 0x2A6C5C, new int[1] { 0x24 });
+                            LB_Time.Text = ((int)missionTime / 60).ToString("D2") + ":" + (missionTime % 60).ToString("00.000");
+                            // Reseting the number of shots fired while loading a game (the timer goes to 0 while loading)
+                            if (missionTime == 0)
+                                currentShotsFired = 0;
+                            break;
+                        case 3:
+                            break;
+                    }
 
                     // Reading the number of shots fired.
-                    // There's a glitch with this, it sometimes goes back to 0 for a few milliseconds, so I use another variable to stock what was the value before so I can prevent it to change.
-                    nbShotsFired = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x00051A88, new int[3] { 0x34, 0x54, 0x11C7 });
-                    if (nbShotsFired > currentShotsFired)
-                        currentShotsFired = nbShotsFired;
+                    // There's a glitch with this, it sometimes goes back to 0 for a few milliseconds, so I use another variable to store what was the value before so I can prevent it to change.
+                    switch (gameNumber)
+                    {
+                        case 2:
+                            nbShotsFired = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x00051A88, new int[3] { 0x34, 0x54, 0x11C7 });
+                            if (nbShotsFired > currentShotsFired)
+                                currentShotsFired = nbShotsFired;
+                            break;
+                        case 3:
+                            nbShotsFired = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947B0, new int[3] { 0xBA0, 0x104, 0x82F });
+                            break;
+                    }
+                    
 
                     // Reading every other value
-                    nbCloseEncounters = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x220 });
-                    nbHeadshots = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x208 });
-                    nbAlerts = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x21C });
-                    nbEnemiesK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x210 });
-                    nbEnemiesH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x20C });
-                    nbInnocentsK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x218 });
-                    nbInnocentsH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x214 });
+                    switch (gameNumber)
+                    {
+                        case 2:
+                            nbCloseEncounters = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x220 });
+                            nbHeadshots = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x208 });
+                            nbAlerts = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x21C });
+                            nbEnemiesK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x210 });
+                            nbEnemiesH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x20C });
+                            nbInnocentsK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x218 });
+                            nbInnocentsH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x214 });
+                            break;
+                        case 3:
+                            nbCloseEncounters = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB2F });
+                            nbHeadshots = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB17 });
+                            nbAlerts = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB2B });
+                            nbEnemiesK = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB1F });
+                            nbEnemiesH = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB1B });
+                            nbInnocentsK = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB27 });
+                            nbInnocentsH = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB23 });
+                            break;
+                    }
 
                     // Displaying the values
-                    NB_ShotsFired.Text = currentShotsFired.ToString();
+                    switch (gameNumber)
+                    {
+                        case 2:
+                            NB_ShotsFired.Text = currentShotsFired.ToString();
+                            break;
+                        case 3:
+                            NB_ShotsFired.Text = nbShotsFired.ToString();
+                            break;
+                    }
                     NB_CloseEncounters.Text = nbCloseEncounters.ToString();
                     NB_Headshots.Text = nbHeadshots.ToString();
                     NB_Alerts.Text = nbAlerts.ToString();
@@ -123,16 +186,17 @@ namespace Hitman2Statistics
                     NB_InnocentsHarmed.Text = nbInnocentsH.ToString();
 
                     // Checking if the actual rating is SA according to the current stats
-                    if (SilentAssassin())
-                    {
-                        IMG_SA.BackgroundImage = imgSA;
-                        LB_SilentAssassin.ForeColor = Color.Green;
-                    }
-                    else
-                    {
-                        IMG_SA.BackgroundImage = imgNotSA;
-                        LB_SilentAssassin.ForeColor = Color.Red;
-                    }
+                    if(gameNumber == 2)
+                        if (SilentAssassin())
+                        {
+                            IMG_SA.BackgroundImage = imgSA;
+                            LB_SilentAssassin.ForeColor = Color.Green;
+                        }
+                        else
+                        {
+                            IMG_SA.BackgroundImage = imgNotSA;
+                            LB_SilentAssassin.ForeColor = Color.Red;
+                        }
                 }
                 else // No mission is active, reseting values.
                 {
@@ -142,7 +206,7 @@ namespace Hitman2Statistics
             else
             {
                 // The game process has not been found, reseting values.
-                LB_Running.Text = "HITMAN 2 IS NOT RUNNING";
+                LB_Running.Text = gameName + " IS NOT RUNNING";
                 LB_Running.ForeColor = Color.Red;
                 ResetValues();
             }
@@ -184,6 +248,28 @@ namespace Hitman2Statistics
                 }
             }
             return false;
+        }
+
+        // Selecting the Hitman 2 game
+        private void Menu_Game_H2_Click(object sender, EventArgs e)
+        {
+            gameNumber = 2;
+            gameName = "HITMAN 2";
+            LB_Timer.Visible = true;
+            LB_Time.Visible = true;
+            IMG_SA.Visible = true;
+            LB_SilentAssassin.Visible = true;
+        }
+
+        // Selecting the Hitman Contracts game
+        private void Menu_Game_HC_Click(object sender, EventArgs e)
+        {
+            gameNumber = 3;
+            gameName = "HITMAN CONTRACTS";
+            LB_Timer.Visible = false;
+            LB_Time.Visible = false;
+            IMG_SA.Visible = false;
+            LB_SilentAssassin.Visible = false;
         }
     }
 }
