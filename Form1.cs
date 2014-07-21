@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-namespace Hitman2Statistics
+namespace HitmanStatistics
 {
     public partial class Form1 : Form
     {

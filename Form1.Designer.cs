@@ -1,4 +1,4 @@
-﻿namespace Hitman2Statistics
+﻿namespace HitmanStatistics
 {
     partial class Form1
     {
@@ -307,7 +307,7 @@
             // 
             // IMG_SA
             // 
-            this.IMG_SA.BackgroundImage = global::Hitman2Statistics.Properties.Resources.Yes;
+            this.IMG_SA.BackgroundImage = global::HitmanStatistics.Properties.Resources.Yes;
             this.IMG_SA.Location = new System.Drawing.Point(13, 298);
             this.IMG_SA.Name = "IMG_SA";
             this.IMG_SA.Size = new System.Drawing.Size(16, 16);

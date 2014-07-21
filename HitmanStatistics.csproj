@@ -8,8 +8,8 @@
     <ProjectGuid>{1E6C8237-8047-4353-93A0-327F0EDBE1B2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hitman2Statistics</RootNamespace>
-    <AssemblyName>Hitman2Statistics</AssemblyName>
+    <RootNamespace>HitmanStatistics</RootNamespace>
+    <AssemblyName>HitmanStatistics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

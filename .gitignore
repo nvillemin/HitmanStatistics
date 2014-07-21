@@ -12,3 +12,10 @@ obj/x86/Debug/Hitman2Statistics.Properties.Resources.resources
 obj/x86/Debug/TempPE/Properties.Resources.Designer.cs.dll
 obj/x86/Debug/DesignTimeResolveAssemblyReferences.cache
 obj/x86/Debug/Hitman2Statistics.csprojResolveAssemblyReference.cache
+obj/x86/Debug/HitmanStatistics.csproj.FileListAbsolute.txt
+*.exe
+bin/Debug/HitmanStatistics.pdb
+obj/x86/Debug/HitmanStatistics.csproj.GenerateResource.Cache
+obj/x86/Debug/HitmanStatistics.Form1.resources
+obj/x86/Debug/HitmanStatistics.pdb
+obj/x86/Debug/HitmanStatistics.Properties.Resources.resources
