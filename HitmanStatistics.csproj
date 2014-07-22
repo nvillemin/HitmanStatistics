@@ -84,9 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Hitman.ico" />
-    <None Include="Ressources\No.png" />
-    <None Include="Ressources\Yes.png" />
+    <None Include="Resources\Yes.png" />
+    <None Include="Resources\No.png" />
+    <None Include="Resources\Bar.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

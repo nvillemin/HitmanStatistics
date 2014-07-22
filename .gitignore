@@ -19,3 +19,5 @@ obj/x86/Debug/HitmanStatistics.csproj.GenerateResource.Cache
 obj/x86/Debug/HitmanStatistics.Form1.resources
 obj/x86/Debug/HitmanStatistics.pdb
 obj/x86/Debug/HitmanStatistics.Properties.Resources.resources
+bin/Debug/HitmanStatistics.vshost.exe.manifest
+obj/x86/Debug/HitmanStatistics.csprojResolveAssemblyReference.cache

@@ -56,7 +56,7 @@ namespace HitmanStatistics
             imgNotSA = Properties.Resources.No;
             currentShotsFired = 0;
             gameNumber = 2;
-            gameName = "HITMAN 2";
+            gameName = "H2SA";
         }
 
 
@@ -125,8 +125,6 @@ namespace HitmanStatistics
                             if (missionTime == 0)
                                 currentShotsFired = 0;
                             break;
-                        case 3:
-                            break;
                     }
 
                     // Reading the number of shots fired.
@@ -135,7 +133,7 @@ namespace HitmanStatistics
                     {
                         case 2:
                             nbShotsFired = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x00051A88, new int[3] { 0x34, 0x54, 0x11C7 });
-                            if (nbShotsFired > currentShotsFired)
+                            if (nbShotsFired > currentShotsFired && nbShotsFired <= currentShotsFired + 10)
                                 currentShotsFired = nbShotsFired;
                             break;
                         case 3:
@@ -216,7 +214,12 @@ namespace HitmanStatistics
         // Used to reset all the values.
         private void ResetValues()
         {
-            LB_Time.Text = "00:00,000";
+            switch (gameNumber)
+            {
+                case 2:
+                    LB_Time.Text = "00:00,000";
+                    break;
+            }
             LB_MapName.Text = "No mission currently";
 
             NB_ShotsFired.Text = "0";
@@ -242,7 +245,7 @@ namespace HitmanStatistics
             foreach (SACombination combination in validSACombination)
             {
                 // If all the current values are equal or inferior to a valid combination, the rating is SA
-                if(combination.isSACombination(nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH))
+                if(combination.isSACombination(currentShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH))
                 {
                     return true;
                 }
@@ -254,22 +257,17 @@ namespace HitmanStatistics
         private void Menu_Game_H2_Click(object sender, EventArgs e)
         {
             gameNumber = 2;
-            gameName = "HITMAN 2";
-            LB_Timer.Visible = true;
-            LB_Time.Visible = true;
-            IMG_SA.Visible = true;
-            LB_SilentAssassin.Visible = true;
+            gameName = "H2SA";
+            Height = 357;
         }
 
         // Selecting the Hitman Contracts game
         private void Menu_Game_HC_Click(object sender, EventArgs e)
         {
             gameNumber = 3;
-            gameName = "HITMAN CONTRACTS";
-            LB_Timer.Visible = false;
-            LB_Time.Visible = false;
-            IMG_SA.Visible = false;
-            LB_SilentAssassin.Visible = false;
+            gameName = "HC";
+            LB_Time.Text = "Not available yet";
+            Height = 325;
         }
     }
 }
