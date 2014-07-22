@@ -19,4 +19,4 @@ Features:<br>
 How to use:<br>
   Run the program while playing the game, during a mission all values will be updated automatically.
 
-Screenshots: http://i.imgur.com/pJ2xemZ.png - http://i.imgur.com/oI7870x.png
+Screenshots: http://i.imgur.com/Rgly7je.png - http://i.imgur.com/NAe9zGk.png
