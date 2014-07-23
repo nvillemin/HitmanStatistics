@@ -85,7 +85,7 @@
             this.LB_Running.Name = "LB_Running";
             this.LB_Running.Size = new System.Drawing.Size(302, 24);
             this.LB_Running.TabIndex = 1;
-            this.LB_Running.Text = "H2SA IS NOT RUNNING";
+            this.LB_Running.Text = "H2:SA IS NOT RUNNING";
             this.LB_Running.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // NB_ShotsFired

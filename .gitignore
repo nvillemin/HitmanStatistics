@@ -21,3 +21,9 @@ obj/x86/Debug/HitmanStatistics.pdb
 obj/x86/Debug/HitmanStatistics.Properties.Resources.resources
 bin/Debug/HitmanStatistics.vshost.exe.manifest
 obj/x86/Debug/HitmanStatistics.csprojResolveAssemblyReference.cache
+bin/Debug/HitmanStatistics.application
+bin/Debug/HitmanStatistics.exe.manifest
+bin/Debug/HitmanStatistics.vshost.application
+obj/x86/Debug/HitmanStatistics.application
+obj/x86/Debug/HitmanStatistics.exe.manifest
+obj/x86/Debug/HitmanStatistics.TrustInfo.xml

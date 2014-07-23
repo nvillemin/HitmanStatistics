@@ -56,7 +56,7 @@ namespace HitmanStatistics
             imgNotSA = Properties.Resources.No;
             currentShotsFired = 0;
             gameNumber = 2;
-            gameName = "H2SA";
+            gameName = "H2:SA";
         }
 
 
@@ -90,7 +90,7 @@ namespace HitmanStatistics
                         mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("hitman2", baseAddress + 0x002A6C5C, new int[2] { 0x98, 0xBC7 }));
                         break;
                     case 3:
-                        mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("HitmanContracts", baseAddress + 0x00393D58, new int[2] { 0x234, 0xBDE }));
+                        mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("HitmanContracts", baseAddress + 0x00394598, new int[2] { 0x214, 0xC0E }));
                         break;
                 }
                 string mapBytesStr = enc.GetString(mapBytes);
@@ -257,7 +257,7 @@ namespace HitmanStatistics
         private void Menu_Game_H2_Click(object sender, EventArgs e)
         {
             gameNumber = 2;
-            gameName = "H2SA";
+            gameName = "H2:SA";
             Height = 357;
         }
 
