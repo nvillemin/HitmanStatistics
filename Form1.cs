@@ -90,7 +90,7 @@ namespace HitmanStatistics
                         mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("hitman2", baseAddress + 0x002A6C5C, new int[2] { 0x98, 0xBC7 }));
                         break;
                     case 3:
-                        mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("HitmanContracts", baseAddress + 0x00394598, new int[2] { 0x214, 0xC0E }));
+                        mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("HitmanContracts", baseAddress + 0x00394598, new int[5] { 0x4, 0x44, 0xB38, 0x0, 0xC2 }));
                         break;
                 }
                 string mapBytesStr = enc.GetString(mapBytes);
