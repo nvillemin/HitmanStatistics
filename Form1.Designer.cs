@@ -59,6 +59,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.IMG_SA = new System.Windows.Forms.Panel();
+            this.Menu_TestPointers = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -299,7 +300,8 @@
             // MainMenu
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_Game});
+            this.Menu_Game,
+            this.Menu_TestPointers});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(302, 24);
@@ -352,6 +354,14 @@
             this.IMG_SA.Name = "IMG_SA";
             this.IMG_SA.Size = new System.Drawing.Size(16, 16);
             this.IMG_SA.TabIndex = 33;
+            // 
+            // Menu_TestPointers
+            // 
+            this.Menu_TestPointers.Name = "Menu_TestPointers";
+            this.Menu_TestPointers.Size = new System.Drawing.Size(87, 20);
+            this.Menu_TestPointers.Text = "Test pointers";
+            this.Menu_TestPointers.Visible = false;
+            this.Menu_TestPointers.Click += new System.EventHandler(this.testPointersToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -427,6 +437,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Game_HC;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripMenuItem Menu_TestPointers;
     }
 }
 

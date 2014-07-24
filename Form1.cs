@@ -35,6 +35,12 @@ namespace HitmanStatistics
             { "C06-2_MA", new Tuple<string, int>("Deadly Cargo", 6) },              { "C07-1_MA", new Tuple<string, int>("Traditions of the Trade", 7) },   { "C08-1_MA", new Tuple<string, int>("Slaying a Dragon", 8) },      { "C08-2_MA", new Tuple<string, int>("The Wang Fou Incident", 9) },         { "C08-3_MA", new Tuple<string, int>("The Seafood Massacre", 10) },
             { "C08-4_MA", new Tuple<string, int>("Lee Hong Assassination", 11) },   { "C09-1_MA", new Tuple<string, int>("Hunter and Hunted", 12) }};
 
+        // Map pointers for HC
+        Pointer[] HCmapPointers = {
+            new Pointer(0x00394598, new int[2] { 0x214, 0xC0E }),       new Pointer(0x00394598, new int[3] { 0x4, 0x44, 0xC0E }),   new Pointer(0x00394598, new int[3] { 0x28, 0x74, 0xC0E }),  new Pointer(0x00394598, new int[3] { 0x24, 0xA4, 0xC0E }),  new Pointer(0x00394598, new int[3] { 0x20, 0xD4, 0xC0E }),      new Pointer(0x00394598, new int[3] { 0x1C, 0x104, 0xC0E }), new Pointer(0x00394594, new int[3] { 0x1374, 0x2E4, 0xC0E }),
+            new Pointer(0x00394598, new int[3] { 0x18, 0x134, 0xC0E }), new Pointer(0x00394598, new int[3] { 0x14, 0x164, 0xC0E }), new Pointer(0x00394598, new int[3] { 0x10, 0x194, 0xC0E }), new Pointer(0x00394598, new int[3] { 0xC, 0x1C4, 0xC0E }),  new Pointer(0x00394594, new int[3] { 0xC8, 0x214, 0xC0E }),     new Pointer(0x00394594, new int[3] { 0x4, 0x244, 0xC0E }),
+            new Pointer(0x003B55D0, new int[3] { 0xCAC, 0x270, 0xC0E }),new Pointer(0x00394594, new int[3] { 0xD0, 0x274, 0xC0E }), new Pointer(0x003B55D0, new int[3] { 0xB8C, 0x274, 0xC0E }),new Pointer(0x003B59E4, new int[3] { 0x4, 0x2E4, 0xC0E }),  new Pointer(0x003B5BA4, new int[3] { 0x1124, 0x2E4, 0xC0E }),   new Pointer(0x003B5A00, new int[3] { 0x1274, 0x2E4, 0xC0E })};
+
         // Other variables.
         System.Text.Encoding enc = System.Text.Encoding.UTF8;
         Image imgSA, imgNotSA;
@@ -43,7 +49,7 @@ namespace HitmanStatistics
         float missionTime;
         bool isMissionActive;
         string gameName;
-        int gameNumber, mapNumber, nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH, currentShotsFired;
+        int gameNumber, mapNumber, nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH, currentShotsFired, HCpointerNumber;
         
 
         /*------------------
@@ -55,6 +61,7 @@ namespace HitmanStatistics
             imgSA = Properties.Resources.Yes;
             imgNotSA = Properties.Resources.No;
             currentShotsFired = 0;
+            HCpointerNumber = 0;
             gameNumber = 2;
             gameName = "H2:SA";
         }
@@ -90,7 +97,7 @@ namespace HitmanStatistics
                         mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("hitman2", baseAddress + 0x002A6C5C, new int[2] { 0x98, 0xBC7 }));
                         break;
                     case 3:
-                        mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("HitmanContracts", baseAddress + 0x00394598, new int[5] { 0x4, 0x44, 0xB38, 0x0, 0xC2 }));
+                        mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("HitmanContracts", baseAddress + HCmapPointers[HCpointerNumber].address, HCmapPointers[HCpointerNumber].offsets));
                         break;
                 }
                 string mapBytesStr = enc.GetString(mapBytes);
@@ -108,6 +115,9 @@ namespace HitmanStatistics
                     // The current screen is something like the main menu, the briefing or a cutscene.
                     isMissionActive = false;
                     currentShotsFired = 0;
+                    HCpointerNumber++;
+                    if (HCpointerNumber > 18)
+                        HCpointerNumber = 0;
                 }
 
                 if (isMissionActive) // A mission is currently active, ready to read memory.
@@ -259,6 +269,7 @@ namespace HitmanStatistics
             gameNumber = 2;
             gameName = "H2:SA";
             Height = 357;
+            Menu_TestPointers.Visible = false;
         }
 
         // Selecting the Hitman Contracts game
@@ -268,6 +279,31 @@ namespace HitmanStatistics
             gameName = "HC";
             LB_Time.Text = "Not available yet";
             Height = 325;
+            Menu_TestPointers.Visible = true;
+        }
+
+        // Test working map pointers for HC
+        private void testPointersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string message = "Working pointers: ";
+            int nbPointersWorking = 0;
+
+            for(int i = 0; i < HCmapPointers.Length; i++)
+            {
+                byte[] mapBytes = BitConverter.GetBytes(Trainer.ReadPointerDouble("HitmanContracts", baseAddress + HCmapPointers[i].address, HCmapPointers[i].offsets));
+                string mapBytesStr = enc.GetString(mapBytes);
+                try
+                {
+                    mapName = mapValues[mapBytesStr].Item1;
+                    mapNumber = mapValues[mapBytesStr].Item2;
+                    message += "P" + i + ", ";
+                    nbPointersWorking++;
+                }
+                catch (KeyNotFoundException){}
+            }
+
+            message += "\n\nIf you don't get any number make sure you are currently in a mission.\nPlease report the numbers you have in the forum to help me setup this tool for everyone.";
+            MessageBox.Show(message);
         }
     }
 }
