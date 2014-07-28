@@ -12,12 +12,19 @@ namespace HitmanStatistics
         const int baseAddress = 0x00400000;
 
         // All the possible Silent Assassin combinations for Hitman 2
-        SACombination[] validSACombination = {
+        SACombination[] validSACombinationH2 = {
             new SACombination(0, 1, 0, 0, 1, 2, 0, 0), new SACombination(0, 1, 0, 0, 0, 5, 0, 0), new SACombination(0, 1, 0, 0, 0, 2, 0, 1), new SACombination(0, 0, 0, 1, 2, 0, 0, 0), new SACombination(0, 0, 0, 1, 1, 3, 0, 0), 
             new SACombination(0, 0, 0, 1, 1, 0, 0, 1), new SACombination(0, 0, 0, 1, 0, 6, 0, 0), new SACombination(0, 0, 0, 1, 0, 3, 0, 1), new SACombination(0, 0, 0, 1, 0, 0, 1, 0), new SACombination(0, 0, 0, 1, 0, 0, 0, 2), 
             new SACombination(0, 0, 0, 0, 1, 0, 0, 1), new SACombination(1, 1, 0, 0, 1, 0, 0, 0), new SACombination(1, 1, 0, 0, 0, 3, 0, 0), new SACombination(1, 1, 0, 0, 0, 0, 0, 1), new SACombination(1, 0, 1, 1, 1, 0, 0, 0), 
             new SACombination(1, 0, 0, 1, 1, 1, 0, 0), new SACombination(1, 0, 0, 1, 0, 4, 0, 0), new SACombination(1, 0, 0, 1, 0, 1, 0, 1), new SACombination(1, 0, 0, 0, 1, 1, 0, 0), new SACombination(2, 1, 0, 0, 0, 1, 0, 0),
             new SACombination(2, 0, 0, 1, 0, 1, 0, 0), new SACombination(3, 0, 0, 1, 0, 0, 0, 0)};
+
+        // All the possible Silent Assassin combinations for Hitman Contracts
+        SACombination[] validSACombinationHC = {
+            new SACombination(999, 0, 999, 1, 0, 0, 0, 0),  new SACombination(2, 1, 1, 0, 0, 0, 0, 0), new SACombination(2, 1, 0, 0, 0, 1, 0, 0), new SACombination(2, 0, 1, 1, 0, 1, 0, 0), new SACombination(2, 0, 0, 0, 0, 2, 0, 0), new SACombination(1, 1, 1, 0, 0, 2, 0, 0),
+            new SACombination(1, 1, 0, 0, 1, 0, 0, 0),      new SACombination(1, 1, 0, 0, 0, 3, 0, 0), new SACombination(1, 0, 1, 1, 1, 0, 0, 0), new SACombination(1, 0, 1, 1, 0, 3, 0, 0), new SACombination(1, 0, 0, 1, 1, 1, 0, 0),
+            new SACombination(1, 0, 0, 1, 0, 4, 0, 0),      new SACombination(0, 1, 0, 0, 1, 2, 0, 0), new SACombination(0, 1, 0, 0, 0, 5, 0, 0), new SACombination(0, 0, 0, 1, 1, 3, 0, 0), new SACombination(0, 0, 0, 1, 2, 0, 0, 0),
+            new SACombination(0, 0, 0, 1, 0, 6, 0, 0)};
 
         // Most values are accessed with 3-levels pointers and the second offset is different depending on the current mission.
         // All second offsets are stored here to be accessed according to the correct mission.
@@ -124,9 +131,6 @@ namespace HitmanStatistics
                     switch (gameNumber)
                     {
                         case 2:
-                            // Reading the mission name with it's number.
-                            LB_MapName.Text = "#" + mapNumber + " " + mapName;
-
                             // Reading the timer and displaying it with 3 decimals.
                             missionTime = Trainer.ReadPointerFloat("hitman2", baseAddress + 0x2A6C5C, new int[1] { 0x24 });
                             LB_Time.Text = ((int)missionTime / 60).ToString("D2") + ":" + (missionTime % 60).ToString("00.000");
@@ -150,21 +154,8 @@ namespace HitmanStatistics
                             nbInnocentsK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x218 });
                             nbInnocentsH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x214 });
                             NB_ShotsFired.Text = currentShotsFired.ToString();
-
-                            // Checking if the actual rating is SA according to the current stats
-                            if (SilentAssassin())
-                            {
-                                IMG_SA.BackgroundImage = imgSA;
-                                LB_SilentAssassin.ForeColor = Color.Green;
-                            }
-                            else
-                            {
-                                IMG_SA.BackgroundImage = imgNotSA;
-                                LB_SilentAssassin.ForeColor = Color.Red;
-                            }
                             break;
                         case 3:
-                            LB_MapName.Text = "#" + mapNumber + " " + mapName;
                             nbShotsFired = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947B0, new int[3] { 0xBA0, 0x104, 0x82F });
                             nbCloseEncounters = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB2F });
                             nbHeadshots = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB17 });
@@ -177,7 +168,20 @@ namespace HitmanStatistics
                             break;
                     }
 
+                    // Checking if the actual rating is SA according to the current stats
+                    if (SilentAssassin())
+                    {
+                        IMG_SA.BackgroundImage = imgSA;
+                        LB_SilentAssassin.ForeColor = Color.Green;
+                    }
+                    else
+                    {
+                        IMG_SA.BackgroundImage = imgNotSA;
+                        LB_SilentAssassin.ForeColor = Color.Red;
+                    }
+
                     // Displaying the values
+                    LB_MapName.Text = "#" + mapNumber + " " + mapName;
                     NB_CloseEncounters.Text = nbCloseEncounters.ToString();
                     NB_Headshots.Text = nbHeadshots.ToString();
                     NB_Alerts.Text = nbAlerts.ToString();
@@ -231,6 +235,18 @@ namespace HitmanStatistics
         // Used to check if the actual rating is Silent Assassin
         private bool SilentAssassin()
         {
+            SACombination[] validSACombination = null;
+            switch (gameNumber)
+            {
+                case 2:
+                    validSACombination = validSACombinationH2;
+                    break;
+                case 3:
+                    if (mapName == "Asylum Aftermath" && nbCloseEncounters > 0)
+                        return false;
+                    validSACombination = validSACombinationHC;
+                    break;
+            }
             // Checking every possible SA combination
             foreach (SACombination combination in validSACombination)
             {
@@ -248,7 +264,6 @@ namespace HitmanStatistics
         {
             gameNumber = 2;
             gameName = "H2:SA";
-            Height = 357;
         }
 
         // Selecting the Hitman Contracts game
@@ -257,7 +272,6 @@ namespace HitmanStatistics
             gameNumber = 3;
             gameName = "HC";
             LB_Time.Text = "Not available yet";
-            Height = 325;
         }
     }
 }
