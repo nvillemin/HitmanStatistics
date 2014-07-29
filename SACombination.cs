@@ -19,12 +19,7 @@ public class SACombination
     public bool isSACombination(int sf, int ce, int hs, int al, int ek, int eh, int ik, int ih)
     {
         if (sf <= nbShotsFired && ce <= nbCloseEncounters && hs <= nbHeadshots && al <= nbAlerts && ek <= nbEnemiesK && eh <= nbEnemiesH && ik <= nbInnocentsK && ih <= nbInnocentsH)
-        {
             return true;
-        }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 }
