@@ -6,7 +6,7 @@ Hitman 2 and Hitman Contracts real-time statistics tracker.
 Features:<br>
  • Silent Assassin rating<br>
  • Current mission name & number<br>
- • Timer with 3 decimals (H2 only)<br>
+ • Timer with 3 decimals<br>
  • Shots fired<br>
  • Close encounters<br>
  • Headshots<br>

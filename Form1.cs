@@ -158,6 +158,10 @@ namespace HitmanStatistics
                             NB_ShotsFired.Text = currentShotsFired.ToString();
                             break;
                         case 3:
+                            //Reading timer
+                            missionTime = Trainer.ReadPointerFloat("HitmanContracts", baseAddress + 0x0039457C, new int[1] { 0x24 });
+                            LB_Time.Text = ((int)missionTime / 60).ToString("D2") + ":" + (missionTime % 60).ToString("00.000");
+                            //Rest of stuff
                             nbShotsFired = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947B0, new int[3] { 0xBA0, 0x104, 0x82F });
                             nbCloseEncounters = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB2F });
                             nbHeadshots = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB17 });
@@ -273,7 +277,6 @@ namespace HitmanStatistics
         {
             gameNumber = 3;
             gameName = "HC";
-            LB_Time.Text = "Not available yet";
         }
     }
 }
