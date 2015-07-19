@@ -119,7 +119,6 @@ namespace HitmanStatistics {
 
                 if (isMissionActive) {
                     // A mission is currently active, ready to read memory.
-                    Console.WriteLine("HCpointerNumber = " + HCpointerNumber);
                     switch (gameNumber) {
                         case 2:
                             // Reading the timer
@@ -190,9 +189,13 @@ namespace HitmanStatistics {
         // Called when the game is not running or no mission is active.
         // Used to reset all the values.
         private void ResetValues() {
+            switch (gameNumber) {
+                case 2:
+                    LB_Time.Text = "00:00,000";
+                    break;
+            }
+
             LB_MapName.Text = "No mission currently";
-            missionTime = 0;
-            LB_Time.Text = "00:00,000";
             nbShotsFired = 0;
             NB_ShotsFired.Text = "0";
             nbCloseEncounters = 0;
