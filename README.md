@@ -2,17 +2,17 @@
 Hitman 2 and Hitman Contracts real-time statistics tracker.
 
 ##Features
--Silent Assassin rating
--Current mission name & number
--Timer with 3 decimals
--Shots fired
--Close encounters
--Headshots
--Alerts
--Enemies killed
--Enemies harmed
--Innocents killed
--Innocents harmed
+- Silent Assassin rating
+- Current mission name & number
+- Timer with 3 decimals
+- Shots fired
+- Close encounters
+- Headshots
+- Alerts
+- Enemies killed
+- Enemies harmed
+- Innocents killed
+- Innocents harmed
 
 ##How to use
 Run the program while playing the game, during a mission all values will be updated automatically.
