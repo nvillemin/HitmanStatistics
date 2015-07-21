@@ -52,7 +52,7 @@ namespace HitmanStatistics {
         Process[] myProcess;
         String mapName;
         float missionTime;
-        bool isMissionActive;
+        bool isMissionActive, areValuesReset;
         string gameName;
         int gameNumber, mapNumber, nbShotsFired, nbCloseEncounters, nbHeadshots, nbAlerts, nbEnemiesK, nbEnemiesH, nbInnocentsK, nbInnocentsH, HCpointerNumber;
 
@@ -66,6 +66,7 @@ namespace HitmanStatistics {
             HCpointerNumber = 0;
             gameNumber = 2;
             gameName = "H2:SA";
+            ResetValues();
         }
 
         /*------------------
@@ -118,8 +119,11 @@ namespace HitmanStatistics {
                 }
 
                 if (isMissionActive) {
-                    // A mission is currently active, ready to read memory.
-                    Console.WriteLine("HCpointerNumber = " + HCpointerNumber);
+                    // A mission is currently active, ready to read memory
+                    // isValueChanged is used to check if a value has changed since the previous read
+                    // If no value changed, the SA rating isn't updated (saving CPU usage)
+                    bool isValueChanged = false;
+
                     switch (gameNumber) {
                         case 2:
                             // Reading the timer
@@ -127,39 +131,41 @@ namespace HitmanStatistics {
 
                             // Reading every other value if the mission has started
                             if (missionTime > 0) {
-                                nbShotsFired = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x00039419, new int[2] { 0xBD, 0x11C7 });
-                                nbCloseEncounters = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x220 });
-                                nbHeadshots = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x208 });
-                                nbAlerts = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x21C });
-                                nbEnemiesK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x210 });
-                                nbEnemiesH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x20C });
-                                nbInnocentsK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x218 });
-                                nbInnocentsH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x214 });
+                                isValueChanged = (nbShotsFired != (nbShotsFired = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x00039419, new int[2] { 0xBD, 0x11C7 })));
+                                isValueChanged = (nbCloseEncounters != (nbCloseEncounters = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x220 }))) || isValueChanged;
+                                isValueChanged = (nbHeadshots != (nbHeadshots = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x208 }))) || isValueChanged;
+                                isValueChanged = (nbAlerts != (nbAlerts = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x21C }))) || isValueChanged;
+                                isValueChanged = (nbEnemiesK != (nbEnemiesK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x210 }))) || isValueChanged;
+                                isValueChanged = (nbEnemiesH != (nbEnemiesH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x20C }))) || isValueChanged;
+                                isValueChanged = (nbInnocentsK != (nbInnocentsK = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x218 }))) || isValueChanged;
+                                isValueChanged = (nbInnocentsH != (nbInnocentsH = Trainer.ReadPointerInteger("hitman2", baseAddress + 0x002A6C50, new int[3] { 0x28, secondOffset[mapNumber - 1], 0x214 }))) || isValueChanged;
                             }
                             break;
                         case 3:
-                            // Reading timer
+                            // Reading the timer
                             missionTime = Trainer.ReadPointerFloat("HitmanContracts", baseAddress + 0x0039457C, new int[1] { 0x24 });
 
                             // Reading every other value if the mission has started
                             if (missionTime > 0) {
-                                nbShotsFired = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947B0, new int[3] { 0xBA0, 0x104, 0x82F });
-                                nbCloseEncounters = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB2F });
-                                nbHeadshots = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB17 });
-                                nbAlerts = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB2B });
-                                nbEnemiesK = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB1F });
-                                nbEnemiesH = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB1B });
-                                nbInnocentsK = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB27 });
-                                nbInnocentsH = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB23 });
+                                isValueChanged = (nbShotsFired != (nbShotsFired = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947B0, new int[3] { 0xBA0, 0x104, 0x82F })));
+                                isValueChanged = (nbCloseEncounters != (nbCloseEncounters = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB2F }))) || isValueChanged;
+                                isValueChanged = (nbHeadshots != (nbHeadshots = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB17 }))) || isValueChanged;
+                                isValueChanged = (nbAlerts != (nbAlerts = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB2B }))) || isValueChanged;
+                                isValueChanged = (nbEnemiesK != (nbEnemiesK = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB1F }))) || isValueChanged;
+                                isValueChanged = (nbEnemiesH != (nbEnemiesH = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB1B }))) || isValueChanged;
+                                isValueChanged = (nbInnocentsK != (nbInnocentsK = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB27 }))) || isValueChanged;
+                                isValueChanged = (nbInnocentsH != (nbInnocentsH = Trainer.ReadPointerInteger("HitmanContracts", baseAddress + 0x003947C0, new int[1] { 0xB23 }))) || isValueChanged;
                             }
                             break;
                     }
 
                     // Checking if the actual rating is SA according to the current stats
-                    if (SilentAssassin()) {
+                    if (isValueChanged && IsSilentAssassin()) {
+                        areValuesReset = false;
                         IMG_SA.BackgroundImage = imgSA;
                         LB_SilentAssassin.ForeColor = Color.Green;
-                    } else {
+                    } else if (isValueChanged) {
+                        areValuesReset = false;
                         IMG_SA.BackgroundImage = imgNotSA;
                         LB_SilentAssassin.ForeColor = Color.Red;
                     }
@@ -187,9 +193,9 @@ namespace HitmanStatistics {
             }
         }
 
-        // Called when the game is not running or no mission is active.
         // Used to reset all the values.
         private void ResetValues() {
+            isMissionActive = false;
             LB_MapName.Text = "No mission currently";
             missionTime = 0;
             LB_Time.Text = "00:00,000";
@@ -217,7 +223,7 @@ namespace HitmanStatistics {
         }
 
         // Used to check if the actual rating is Silent Assassin
-        private bool SilentAssassin() {
+        private bool IsSilentAssassin() {
             SACombination[] validSACombination = null;
             switch (gameNumber) {
                 case 2:
@@ -249,6 +255,17 @@ namespace HitmanStatistics {
         private void Menu_Game_HC_Click(object sender, EventArgs e) {
             gameNumber = 3;
             gameName = "HC";
+        }
+
+        // Open a web page to the latest version of the tracker
+        private void Menu_Update_Click(object sender, EventArgs e) {
+            System.Diagnostics.Process.Start("https://github.com/nvillemin/HitmanStatistics/releases/latest");
+        }
+
+        // Open a window containing information about the tracker
+        private void Menu_About_Click(object sender, EventArgs e) {
+            FormAbout aboutForm = new FormAbout();
+            aboutForm.ShowDialog();
         }
     }
 }

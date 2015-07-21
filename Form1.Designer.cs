@@ -51,9 +51,11 @@
             this.Menu_Game = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Game_H2 = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Game_HC = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Update = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.IMG_SA = new System.Windows.Forms.Panel();
+            this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -295,7 +297,9 @@
             // MainMenu
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_Game});
+            this.Menu_Game,
+            this.Menu_Update,
+            this.Menu_About});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(302, 24);
@@ -325,6 +329,13 @@
             this.Menu_Game_HC.Text = "Hitman Contracts";
             this.Menu_Game_HC.Click += new System.EventHandler(this.Menu_Game_HC_Click);
             // 
+            // Menu_Update
+            // 
+            this.Menu_Update.Name = "Menu_Update";
+            this.Menu_Update.Size = new System.Drawing.Size(57, 20);
+            this.Menu_Update.Text = "Update";
+            this.Menu_Update.Click += new System.EventHandler(this.Menu_Update_Click);
+            // 
             // panel2
             // 
             this.panel2.BackgroundImage = global::HitmanStatistics.Properties.Resources.Bar;
@@ -348,6 +359,13 @@
             this.IMG_SA.Name = "IMG_SA";
             this.IMG_SA.Size = new System.Drawing.Size(16, 16);
             this.IMG_SA.TabIndex = 33;
+            // 
+            // Menu_About
+            // 
+            this.Menu_About.Name = "Menu_About";
+            this.Menu_About.Size = new System.Drawing.Size(52, 20);
+            this.Menu_About.Text = "About";
+            this.Menu_About.Click += new System.EventHandler(this.Menu_About_Click);
             // 
             // Form1
             // 
@@ -423,6 +441,8 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Game_HC;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Update;
+        private System.Windows.Forms.ToolStripMenuItem Menu_About;
     }
 }
 
