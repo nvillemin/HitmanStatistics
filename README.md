@@ -19,3 +19,9 @@ Run the program while playing the game, during a mission all values will be upda
 
 ##Screenshot
 http://i.imgur.com/jJh3kcj.png
+
+##Credits
+Original Trainer class by Cless.
+
+##Licence
+[MIT License](https://github.com/nvillemin/HitmanStatistics/blob/master/LICENSE.txt)
