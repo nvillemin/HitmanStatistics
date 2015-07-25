@@ -238,6 +238,26 @@ public class Trainer
         }
         return Value;
     }
+    public static int ReadPointerInteger(Process[] Proc, int Pointer, int[] Offset) {
+        int Value = 0;
+        checked {
+            try {
+                if (Proc.Length != 0) {
+                    int Bytes = 0;
+                    int Handle = OpenProcess(PROCESS_ALL_ACCESS, 0, Proc[0].Id);
+                    if (Handle != 0) {
+                        foreach (int i in Offset) {
+                            ReadProcessMemoryInteger((int)Handle, Pointer, ref Pointer, 4, ref Bytes);
+                            Pointer += i;
+                        }
+                        ReadProcessMemoryInteger((int)Handle, Pointer, ref Value, 4, ref Bytes);
+                        CloseHandle(Handle);
+                    }
+                }
+            } catch { }
+        }
+        return Value;
+    }
     public static float ReadPointerFloat(string EXENAME, int Pointer, int[] Offset)
     {
         float Value = 0;
@@ -267,6 +287,26 @@ public class Trainer
         }
         return Value;
     }
+    public static float ReadPointerFloat(Process[] Proc, int Pointer, int[] Offset) {
+        float Value = 0;
+        checked {
+            try {
+                if (Proc.Length != 0) {
+                    int Bytes = 0;
+                    int Handle = OpenProcess(PROCESS_ALL_ACCESS, 0, Proc[0].Id);
+                    if (Handle != 0) {
+                        foreach (int i in Offset) {
+                            ReadProcessMemoryInteger((int)Handle, Pointer, ref Pointer, 4, ref Bytes);
+                            Pointer += i;
+                        }
+                        ReadProcessMemoryFloat((int)Handle, Pointer, ref Value, 4, ref Bytes);
+                        CloseHandle(Handle);
+                    }
+                }
+            } catch { }
+        }
+        return Value;
+    }
     public static double ReadPointerDouble(string EXENAME, int Pointer, int[] Offset)
     {
         double Value = 0;
@@ -293,6 +333,26 @@ public class Trainer
             }
             catch
             { }
+        }
+        return Value;
+    }
+    public static double ReadPointerDouble(Process[] Proc, int Pointer, int[] Offset) {
+        double Value = 0;
+        checked {
+            try {
+                if (Proc.Length != 0) {
+                    int Bytes = 0;
+                    int Handle = OpenProcess(PROCESS_ALL_ACCESS, 0, Proc[0].Id);
+                    if (Handle != 0) {
+                        foreach (int i in Offset) {
+                            ReadProcessMemoryInteger((int)Handle, Pointer, ref Pointer, 4, ref Bytes);
+                            Pointer += i;
+                        }
+                        ReadProcessMemoryDouble((int)Handle, Pointer, ref Value, 8, ref Bytes);
+                        CloseHandle(Handle);
+                    }
+                }
+            } catch { }
         }
         return Value;
     }

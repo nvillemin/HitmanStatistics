@@ -1,5 +1,5 @@
 ﻿namespace HitmanStatistics {
-    partial class Form1 {
+    partial class FormMain {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.LB_ShotsFired = new System.Windows.Forms.Label();
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.LB_Running = new System.Windows.Forms.Label();
@@ -50,12 +50,12 @@
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.Menu_Game = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Game_H2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_Game_HC = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Game_H3 = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Update = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.IMG_SA = new System.Windows.Forms.Panel();
-            this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,7 +72,7 @@
             // Timer
             // 
             this.Timer.Enabled = true;
-            this.Timer.Interval = 200;
+            this.Timer.Interval = 500;
             this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
             // LB_Running
@@ -83,7 +83,7 @@
             this.LB_Running.Name = "LB_Running";
             this.LB_Running.Size = new System.Drawing.Size(302, 24);
             this.LB_Running.TabIndex = 1;
-            this.LB_Running.Text = "H2:SA IS NOT RUNNING";
+            this.LB_Running.Text = "HITMAN 2 IS NOT RUNNING";
             this.LB_Running.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // NB_ShotsFired
@@ -310,7 +310,7 @@
             // 
             this.Menu_Game.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_Game_H2,
-            this.Menu_Game_HC});
+            this.Menu_Game_H3});
             this.Menu_Game.Name = "Menu_Game";
             this.Menu_Game.Size = new System.Drawing.Size(50, 20);
             this.Menu_Game.Text = "Game";
@@ -322,12 +322,12 @@
             this.Menu_Game_H2.Text = "Hitman 2: Silent Assassin";
             this.Menu_Game_H2.Click += new System.EventHandler(this.Menu_Game_H2_Click);
             // 
-            // Menu_Game_HC
+            // Menu_Game_H3
             // 
-            this.Menu_Game_HC.Name = "Menu_Game_HC";
-            this.Menu_Game_HC.Size = new System.Drawing.Size(205, 22);
-            this.Menu_Game_HC.Text = "Hitman Contracts";
-            this.Menu_Game_HC.Click += new System.EventHandler(this.Menu_Game_HC_Click);
+            this.Menu_Game_H3.Name = "Menu_Game_H3";
+            this.Menu_Game_H3.Size = new System.Drawing.Size(205, 22);
+            this.Menu_Game_H3.Text = "Hitman Contracts";
+            this.Menu_Game_H3.Click += new System.EventHandler(this.Menu_Game_H3_Click);
             // 
             // Menu_Update
             // 
@@ -335,6 +335,13 @@
             this.Menu_Update.Size = new System.Drawing.Size(57, 20);
             this.Menu_Update.Text = "Update";
             this.Menu_Update.Click += new System.EventHandler(this.Menu_Update_Click);
+            // 
+            // Menu_About
+            // 
+            this.Menu_About.Name = "Menu_About";
+            this.Menu_About.Size = new System.Drawing.Size(52, 20);
+            this.Menu_About.Text = "About";
+            this.Menu_About.Click += new System.EventHandler(this.Menu_About_Click);
             // 
             // panel2
             // 
@@ -360,14 +367,7 @@
             this.IMG_SA.Size = new System.Drawing.Size(16, 16);
             this.IMG_SA.TabIndex = 33;
             // 
-            // Menu_About
-            // 
-            this.Menu_About.Name = "Menu_About";
-            this.Menu_About.Size = new System.Drawing.Size(52, 20);
-            this.Menu_About.Text = "About";
-            this.Menu_About.Click += new System.EventHandler(this.Menu_About_Click);
-            // 
-            // Form1
+            // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -401,7 +401,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MainMenu;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "FormMain";
             this.Text = "Hitman Statistics";
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
@@ -438,7 +438,7 @@
         private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem Menu_Game;
         private System.Windows.Forms.ToolStripMenuItem Menu_Game_H2;
-        private System.Windows.Forms.ToolStripMenuItem Menu_Game_HC;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Game_H3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripMenuItem Menu_Update;
