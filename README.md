@@ -18,7 +18,7 @@ Hitman 2 and Hitman Contracts real-time statistics tracker.
 Run the program while playing the game, during a mission all values will be updated automatically.
 
 ##Screenshot
-http://i.imgur.com/jJh3kcj.png
+![Screenshot](http://i.imgur.com/jJh3kcj.png "Screenshot")
 
 ##Credits
 Original Trainer class by Cless.
