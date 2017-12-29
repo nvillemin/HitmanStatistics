@@ -131,7 +131,7 @@ namespace HitmanStatistics {
                     switch (gameNumber) {
                         case 2:
                             // Reading the timer
-                            missionTime = Trainer.ReadPointerFloat(myProcess, baseAddress + 0x2A6C5C, new int[1] { 0x24 });
+                            missionTime = Trainer.ReadPointerInteger(myProcess, baseAddress + 0x2A6C58, new int[5] { 0x118, 0xB38, 0x8, 0x1084, 0x24 });
 
                             // Reading every other value if the mission has started
                             if (missionTime > 0) {
@@ -174,7 +174,7 @@ namespace HitmanStatistics {
 
                     // Displaying the values
                     LB_MapName.Text = "#" + mapNumber + " " + mapName;
-                    LB_Time.Text = ((int)missionTime / 60).ToString("D2") + ":" + (missionTime % 60).ToString("00.000");
+                    LB_Time.Text = ((int)missionTime / 3600).ToString("D2") + ":" + ((missionTime / 60) % 60).ToString("00.000");
                     NB_ShotsFired.Text = nbShotsFired.ToString();
                     NB_CloseEncounters.Text = nbCloseEncounters.ToString();
                     NB_Headshots.Text = nbHeadshots.ToString();
